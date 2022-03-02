@@ -75,6 +75,11 @@ class Program:
                 # Date format to use with logs
                 datefmt='%Y-%m-%d %H:%M:%S'
             )
+            
+            #  Log rotation, allows for 3 rotations, each at 25MB.
+            logger = logging.getLogger()
+            handler = logging.handlers.RotatingFileHandler(log_filepath, maxBytes=26214400, backupCount=3)
+            logger.addHandler(handler)
 
         except FileNotFoundError as file_not_found_error:
             cls.log(f"DuoLogSync: Could not follow the path {log_filepath}. "
