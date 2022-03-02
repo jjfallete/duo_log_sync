@@ -3,6 +3,7 @@ Definition of the Program class
 """
 
 import logging
+from logging.handlers import RotatingFileHandler
 
 class ProgramShutdownError(Exception):
     """
@@ -75,6 +76,10 @@ class Program:
                 # Date format to use with logs
                 datefmt='%Y-%m-%d %H:%M:%S'
             )
+            
+            #  Log rotation, allows for 3 rotations, each at 25MB.
+            handler = RotatingFileHandler(log_filepath, maxBytes=26214400, backupCount=3)
+            log.addHandler(handler)
 
         except FileNotFoundError as file_not_found_error:
             cls.log(f"DuoLogSync: Could not follow the path {log_filepath}. "
